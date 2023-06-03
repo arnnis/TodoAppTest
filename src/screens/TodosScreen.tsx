@@ -1,5 +1,5 @@
 import {useCallback, useState} from 'react';
-import {Button, ScrollView, StyleSheet, TextInput, View} from 'react-native';
+import {Button, ScrollView, StyleSheet, Text, TextInput, View} from 'react-native';
 import {Todo} from '../types/Todo';
 import TodoItem from '../components/TodoItem';
 
@@ -51,13 +51,19 @@ const TodosScreen = () => {
       </View>
 
       <ScrollView contentContainerStyle={styles.list}>
-        {todos.map(todo => (
+        {todos.length > 0?  todos.map(todo => (
           <TodoItem
+            key={todo.id}
             todo={todo}
             onCheckboxChange={val => handleChecboxChange(todo.id, val)}
             onRemove={() => handleRemove(todo.id)}
           />
-        ))}
+        )) : (
+          <View style={styles.noTodoContainer}>
+          <Text style={styles.noTodo}>No Todos!</Text>
+          </View>
+
+        )}
       </ScrollView>
     </View>
   );
@@ -84,6 +90,15 @@ const styles = StyleSheet.create({
     width: '100%',
     marginTop: 16,
   },
+  noTodo: {
+    color: '#333',
+    fontSize: 17
+  },
+  noTodoContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
 });
 
 export default TodosScreen;
